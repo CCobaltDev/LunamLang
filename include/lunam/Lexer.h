@@ -33,14 +33,21 @@ private:
 		{"else", KeywordType::ELSE},
 		{"switch", KeywordType::SWITCH},
 		{"case", KeywordType::CASE},
+		{"break", KeywordType::BREAK},
 		{"default", KeywordType::DEFAULT},
 		{"for", KeywordType::FOR},
 		{"while", KeywordType::WHILE},
 		{"do", KeywordType::DO},
+		{"continue", KeywordType::CONTINUE},
 		{"new", KeywordType::NEW},
 		{"del", KeywordType::DEL},
+		{"try", KeywordType::TRY},
+		{"catch", KeywordType::CATCH},
+		{"super", KeywordType::SUPER},
+		{"this", KeywordType::THIS},
 		{"return", KeywordType::RETURN},
-		{"null", KeywordType::NULL_T}};
+		{"null", KeywordType::NULL_T},
+	};
 
 	bool match(char c) noexcept;
 	void advance() noexcept;

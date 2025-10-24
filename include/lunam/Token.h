@@ -104,15 +104,22 @@ enum class KeywordType
 	ELSE,
 	SWITCH,
 	CASE,
+	BREAK,
 	DEFAULT,
 
 	FOR,
 	WHILE,
 	DO,
+	CONTINUE,
 
 	NEW,
 	DEL,
 
+	TRY,
+	CATCH,
+
+	SUPER,
+	THIS,
 	RETURN,
 	NULL_T,
 };
