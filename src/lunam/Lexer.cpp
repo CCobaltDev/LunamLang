@@ -144,7 +144,8 @@ Token Lexer::nextToken()
 		case ':':
 			return make(TokenType::SEMICOLON);
 		case '@':
-			return make(match(':') ? TokenType::META : TokenType::ILLEGAL);
+			return make(match(':') ? TokenType::META
+								   : TokenType::ILLEGAL);
 		case '(':
 			return make(TokenType::LPAREN);
 		case ')':
