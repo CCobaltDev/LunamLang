@@ -117,6 +117,7 @@ enum class KeywordType
 
 	TRY,
 	CATCH,
+	FINALLY,
 
 	SUPER,
 	THIS,

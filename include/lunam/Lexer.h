@@ -43,6 +43,7 @@ private:
 		{"del", KeywordType::DEL},
 		{"try", KeywordType::TRY},
 		{"catch", KeywordType::CATCH},
+		{"finally", KeywordType::FINALLY},
 		{"super", KeywordType::SUPER},
 		{"this", KeywordType::THIS},
 		{"return", KeywordType::RETURN},
