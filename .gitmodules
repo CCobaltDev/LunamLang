@@ -13,3 +13,6 @@
 [submodule "thirdparty/fast_float"]
 	path = thirdparty/fast_float
 	url = https://github.com/fastfloat/fast_float
+[submodule "thirdparty/utfcpp"]
+	path = thirdparty/utfcpp
+	url = https://github.com/nemtrif/utfcpp

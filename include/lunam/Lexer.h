@@ -5,6 +5,9 @@
 #include <string_view>
 #include <cstdint>
 #include <string>
+
+#include "fast_float/fast_float.h"
+
 #include "lunam/Token.h"
 
 class Lexer
@@ -15,7 +18,12 @@ private:
 
 	std::string src;
 
-	static inline std::unordered_map<std::string, KeywordType> keywords{
+	static inline constexpr auto num_flags = fast_float::chars_format::general | fast_float::chars_format::allow_leading_plus;
+	static inline constexpr auto decimal_num_format = fast_float::parse_options{num_flags, '.', 10};
+	static inline constexpr auto hexadecimal_num_format = fast_float::parse_options{num_flags, '.', 16};
+	static inline constexpr auto binary_num_format = fast_float::parse_options{num_flags, '.', 2};
+
+	static inline const std::unordered_map<std::string, KeywordType> keywords{
 		{"namespace", KeywordType::NAMESPACE},
 		{"import", KeywordType::IMPORT},
 		{"class", KeywordType::CLASS},

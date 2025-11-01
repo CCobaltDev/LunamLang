@@ -3,12 +3,14 @@
 
 int main()
 {
-	Lexer scanner{"+ - * / % = & | ~ ^ ! += -= *= /= %= &= |= ^= << >> <<= >>= ++ -- == != < > <= >= && || ? ?. ?? ??= ; . , $ : -> @: namespace import class abstract enum extern public protected private static inline override overload if else switch case default for while do new del return null\n//AAHello, World!AA what the FUCK\nH\n/* hai */"};
+	Lexer scanner{"34.432432\n3.141\n0xFF\n37\n0b10010"};
 
 	Token t = scanner.nextToken();
-	while (t.type != TokenType::EoF)
+	while (1)
 	{
 		std::cout << t << '\n';
+		if (t.type == TokenType::EoF)
+			break;
 		t = scanner.nextToken();
 	}
 

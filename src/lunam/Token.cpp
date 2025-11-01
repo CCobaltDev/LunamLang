@@ -11,10 +11,7 @@ std::ostream &operator<<(std::ostream &os, const Token &obj)
 	case TokenType::COMMENT:
 		os << '(' << std::get<std::string>(obj.value) << ')';
 		break;
-	case TokenType::INTEGER_LITERAL:
-		os << '(' << std::get<int64_t>(obj.value) << ')';
-		break;
-	case TokenType::FLOAT_LITERAL:
+	case TokenType::NUMBER_LITERAL:
 		os << '(' << std::get<double>(obj.value) << ')';
 		break;
 	case TokenType::BOOL_LITERAL:

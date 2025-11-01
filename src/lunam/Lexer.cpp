@@ -159,6 +159,70 @@ Token Lexer::nextToken()
 		case ']':
 			return make(TokenType::RBRACKET);
 		default:
+			if (std::isdigit(static_cast<unsigned char>(cur())))
+			{
+				bool hex = (peek() == 'x' || peek() == 'X') && cur() == '0';
+				bool binary = (peek() == 'b' || peek() == 'B') && cur() == '0';
+
+				const auto &format = hex	  ? hexadecimal_num_format
+									 : binary ? binary_num_format
+											  : decimal_num_format;
+
+				if (binary || hex)
+				{
+					advance();
+					advance();
+
+					uint64_t value;
+					char *start = src.data() + pos;
+					auto result = fast_float::from_chars_advanced(start, src.data() + src.size(), value, format);
+					if (!result)
+					{
+						return make(TokenType::ILLEGAL);
+					}
+					uint32_t size = result.ptr - start;
+					for (uint32_t i = 0; i < size; i++)
+						advance();
+
+					return make(TokenType::NUMBER_LITERAL, static_cast<double>(value));
+				}
+				else
+				{
+					double value;
+					char *start = src.data() + pos;
+					auto result = fast_float::from_chars_advanced(start, src.data() + src.size(), value, format);
+					if (!result)
+					{
+						return make(TokenType::ILLEGAL);
+					}
+					uint32_t size = result.ptr - start;
+					for (uint32_t i = 0; i < size; i++)
+						advance();
+
+					return make(TokenType::NUMBER_LITERAL, value);
+				}
+			}
+			else if (std::isalpha(static_cast<unsigned char>(cur())))
+			{
+				uint32_t startPos = pos;
+
+				while (std::isalpha(static_cast<unsigned char>(cur())) || cur() == '_' || std::isdigit(static_cast<unsigned char>(cur())))
+				{
+					advance();
+				}
+
+				std::string identifier{src.substr(startPos, pos - startPos)};
+				auto keyword = keywords.find(identifier);
+				if (keyword != keywords.end())
+				{
+					return make(TokenType::KEYWORD, keyword->second);
+				}
+				else
+				{
+					return make(TokenType::IDENTIFIER, identifier);
+				}
+			}
+
 			return make(TokenType::ILLEGAL);
 		}
 	}();
