@@ -90,6 +90,7 @@ Token Lexer::nextToken()
 				}
 				if (isAtEnd())
 				{
+					// Unterminated comment
 				}
 				uint32_t endPos = pos;
 				advance();
@@ -172,7 +173,7 @@ Token Lexer::nextToken()
 			}
 			if (isAtEnd())
 			{
-				// error
+				// Unterminated String Literal
 			}
 			uint32_t endPos = pos;
 			advance();

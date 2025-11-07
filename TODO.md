@@ -16,3 +16,4 @@
 	- [ ] Memory Analysis (Automatically inserting `dealloc` nodes)
 	- [ ] Optimization Passes (DCE, CSE, Constant folding, etc)
 	- [ ] Implement compiler options
+	- [ ] Testing, CI
