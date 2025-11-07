@@ -45,7 +45,7 @@ void Lexer::advance() noexcept
 Token Lexer::nextToken()
 {
 	if (isAtEnd())
-		return make(TokenType::EoF);
+		return make(TokenType::EndOfFile, tokenLine, tokenCol + 1);
 	while (cur() == ' ' || cur() == '\t' || cur() == '\n' || cur() == '\r')
 		advance();
 
@@ -58,106 +58,128 @@ Token Lexer::nextToken()
 		switch (current)
 		{
 		case '+':
-			return make(match('+')	 ? TokenType::INCREMENT
-						: match('=') ? TokenType::PLUS_EQUALS
-									 : TokenType::PLUS);
+			return make(match('+')	 ? TokenType::Increment
+						: match('=') ? TokenType::PlusEquals
+									 : TokenType::Plus);
 		case '-':
-			return make(match('>')	 ? TokenType::ARROW
-						: match('-') ? TokenType::DECREMENT
-						: match('=') ? TokenType::MINUS_EQUALS
-									 : TokenType::MINUS);
+			return make(match('>')	 ? TokenType::Arrow
+						: match('-') ? TokenType::Decrement
+						: match('=') ? TokenType::MinusEquals
+									 : TokenType::Minus);
 		case '*':
-			return make(match('=') ? TokenType::STAR_EQUALS
-								   : TokenType::STAR);
+			return make(match('=') ? TokenType::StarEquals
+								   : TokenType::Star);
 		case '/':
 			if (match('/'))
 			{
 				advance();
-				uint32_t oldPos = pos;
-				while (cur() != '\n')
+				uint32_t startPos = pos;
+				while (cur() != '\n' && !isAtEnd())
 				{
 					advance();
 				}
-				return make(TokenType::COMMENT, src.substr(oldPos, pos - oldPos));
+				return make(TokenType::Comment, src.substr(startPos, pos - startPos));
 			}
-			else if (match('*'))
+			else if (match('*')) // TODO handle unterminated comment
 			{
 				advance();
-				uint32_t oldPos = pos;
-				while (!(cur() == '*' && peek() == '/'))
+				uint32_t startPos = pos;
+				while (!(cur() == '*' && peek() == '/') && !isAtEnd(1))
 				{
 					advance();
+				}
+				if (isAtEnd())
+				{
 				}
 				uint32_t endPos = pos;
 				advance();
 
-				return make(TokenType::COMMENT, src.substr(oldPos, endPos - oldPos));
+				return make(TokenType::Comment, src.substr(startPos, endPos - startPos));
 			}
 
-			return make(match('=') ? TokenType::SLASH_EQUALS
-								   : TokenType::SLASH);
+			return make(match('=') ? TokenType::SlashEquals
+								   : TokenType::Slash);
 		case '%':
-			return make(match('=') ? TokenType::MODULO_EQUALS
-								   : TokenType::MODULO);
+			return make(match('=') ? TokenType::ModuloEquals
+								   : TokenType::Modulo);
 		case '=':
-			return make(match('=') ? TokenType::EQUALS_TO
-								   : TokenType::EQUALS);
+			return make(match('=') ? TokenType::EqualsTo
+								   : TokenType::Equals);
 		case '&':
-			return make(match('&')	 ? TokenType::AND
-						: match('=') ? TokenType::AMPERSAND_EQUALS
-									 : TokenType::AMPERSAND);
+			return make(match('&')	 ? TokenType::And
+						: match('=') ? TokenType::AmpersandEquals
+									 : TokenType::Ampersand);
 		case '|':
-			return make(match('|')	 ? TokenType::OR
-						: match('=') ? TokenType::PIPE_EQUALS
-									 : TokenType::PIPE);
+			return make(match('|')	 ? TokenType::Or
+						: match('=') ? TokenType::PipeEquals
+									 : TokenType::Pipe);
 		case '~':
-			return make(TokenType::TILDA);
+			return make(TokenType::Tilde);
 		case '^':
-			return make(match('=') ? TokenType::CARAT_EQUALS
-								   : TokenType::CARAT);
+			return make(match('=') ? TokenType::CaretEquals
+								   : TokenType::Caret);
 		case '!':
-			return make(match('=') ? TokenType::NOT_EQUALS
-								   : TokenType::BANG);
+			return make(match('=') ? TokenType::NotEquals
+								   : TokenType::Bang);
 		case '<':
-			return make(match('<')	 ? match('=') ? TokenType::LSHIFT_EQUALS
-												  : TokenType::LSHIFT
-						: match('=') ? TokenType::LESS_EQUALS
-									 : TokenType::LESS_EQUALS);
+			return make(match('<')	 ? match('=') ? TokenType::LeftShiftEquals
+												  : TokenType::LeftShift
+						: match('=') ? TokenType::LessEquals
+									 : TokenType::LessThan);
 		case '>':
-			return make(match('>')	 ? match('=') ? TokenType::RSHIFT_EQUALS
-												  : TokenType::RSHIFT
-						: match('=') ? TokenType::GREATER_EQUALS
-									 : TokenType::GREATER_THAN);
+			return make(match('>')	 ? match('=') ? TokenType::RightShiftEquals
+												  : TokenType::RightShift
+						: match('=') ? TokenType::GreaterEquals
+									 : TokenType::GreaterThan);
 		case '?':
-			return make(match('?')	 ? match('=') ? TokenType::NULL_ASSIGN
-												  : TokenType::NULL_COALESCE
-						: match('.') ? TokenType::NULL_ACCESS
-									 : TokenType::QUESTION);
+			return make(match('?')	 ? match('=') ? TokenType::NullAssign
+												  : TokenType::NullCoalesce
+						: match('.') ? TokenType::NullAccess
+									 : TokenType::Question);
 		case ';':
-			return make(TokenType::SEMICOLON);
+			return make(TokenType::Semicolon);
 		case '.':
-			return make(TokenType::DOT);
+			return make(TokenType::Dot);
 		case ',':
-			return make(TokenType::COMMA);
+			return make(TokenType::Comma);
 		case '$':
-			return make(TokenType::DOLLAR);
+			return make(TokenType::Dollar);
 		case ':':
-			return make(TokenType::SEMICOLON);
+			return make(match(':') ? TokenType::NamespaceAccess : TokenType::Colon);
 		case '@':
-			return make(match(':') ? TokenType::META
-								   : TokenType::ILLEGAL);
+			return make(match(':') ? TokenType::Meta
+								   : TokenType::Illegal);
 		case '(':
-			return make(TokenType::LPAREN);
+			return make(TokenType::LeftParen);
 		case ')':
-			return make(TokenType::RPAREN);
+			return make(TokenType::RightParen);
 		case '{':
-			return make(TokenType::LBRACE);
+			return make(TokenType::LeftBrace);
 		case '}':
-			return make(TokenType::RBRACE);
+			return make(TokenType::RightBrace);
 		case '[':
-			return make(TokenType::LBRACKET);
+			return make(TokenType::LeftBracket);
 		case ']':
-			return make(TokenType::RBRACKET);
+			return make(TokenType::RightBracket);
+		case '"': // TODO handle unterminated string
+		case '\'':
+		{
+			advance();
+			uint32_t startPos = pos;
+			while (!(peek() == current && cur() != '\\') && !isAtEnd(1))
+			{
+				advance();
+			}
+			if (isAtEnd())
+			{
+				// error
+			}
+			uint32_t endPos = pos;
+			advance();
+
+			return make(TokenType::StringLiteral, src.substr(startPos, endPos - startPos));
+		}
+
 		default:
 			if (std::isdigit(static_cast<unsigned char>(cur())))
 			{
@@ -178,13 +200,13 @@ Token Lexer::nextToken()
 					auto result = fast_float::from_chars_advanced(start, src.data() + src.size(), value, format);
 					if (!result)
 					{
-						return make(TokenType::ILLEGAL);
+						return make(TokenType::Illegal);
 					}
 					uint32_t size = result.ptr - start;
 					for (uint32_t i = 0; i < size; i++)
 						advance();
 
-					return make(TokenType::NUMBER_LITERAL, static_cast<double>(value));
+					return make(TokenType::NumberLiteral, static_cast<double>(value));
 				}
 				else
 				{
@@ -193,37 +215,37 @@ Token Lexer::nextToken()
 					auto result = fast_float::from_chars_advanced(start, src.data() + src.size(), value, format);
 					if (!result)
 					{
-						return make(TokenType::ILLEGAL);
+						return make(TokenType::Illegal);
 					}
 					uint32_t size = result.ptr - start;
 					for (uint32_t i = 0; i < size; i++)
 						advance();
 
-					return make(TokenType::NUMBER_LITERAL, value);
+					return make(TokenType::NumberLiteral, value);
 				}
 			}
 			else if (std::isalpha(static_cast<unsigned char>(cur())))
 			{
 				uint32_t startPos = pos;
 
-				while (std::isalpha(static_cast<unsigned char>(cur())) || cur() == '_' || std::isdigit(static_cast<unsigned char>(cur())))
+				while (std::isalpha(static_cast<unsigned char>(peek())) || peek() == '_' || std::isdigit(static_cast<unsigned char>(peek())))
 				{
 					advance();
 				}
 
-				std::string identifier{src.substr(startPos, pos - startPos)};
+				std::string identifier{src.substr(startPos, pos - startPos + 1)};
 				auto keyword = keywords.find(identifier);
 				if (keyword != keywords.end())
 				{
-					return make(TokenType::KEYWORD, keyword->second);
+					return make(TokenType::Keyword, keyword->second);
 				}
 				else
 				{
-					return make(TokenType::IDENTIFIER, identifier);
+					return make(TokenType::Identifier, identifier);
 				}
 			}
 
-			return make(TokenType::ILLEGAL);
+			return make(TokenType::Illegal);
 		}
 	}();
 

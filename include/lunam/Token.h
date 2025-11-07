@@ -10,118 +10,122 @@
 
 enum class TokenType
 {
-	STRING_LITERAL,
-	NUMBER_LITERAL,
-	BOOL_LITERAL,
+	StringLiteral,
+	NumberLiteral,
+	BoolLiteral,
 
-	IDENTIFIER,
-	KEYWORD,
+	Identifier,
+	Keyword,
 
-	PLUS,	   // +
-	MINUS,	   // -
-	STAR,	   // *
-	SLASH,	   // /
-	MODULO,	   // %
-	EQUALS,	   // =
-	AMPERSAND, // &
-	PIPE,	   // |
-	TILDA,	   // ~
-	CARAT,	   // ^
-	BANG,	   // !
+	Plus,	   // +
+	Minus,	   // -
+	Star,	   // *
+	Slash,	   // /
+	Modulo,	   // %
+	Equals,	   // =
+	Ampersand, // &
+	Pipe,	   // |
+	Tilde,	   // ~
+	Caret,	   // ^
+	Bang,	   // !
 
-	PLUS_EQUALS,   // +=
-	MINUS_EQUALS,  // -=
-	STAR_EQUALS,   // *=
-	SLASH_EQUALS,  // /=
-	MODULO_EQUALS, // %=
+	PlusEquals,	  // +=
+	MinusEquals,  // -=
+	StarEquals,	  // *=
+	SlashEquals,  // /=
+	ModuloEquals, // %=
 
-	AMPERSAND_EQUALS, // &=
-	PIPE_EQUALS,	  // |=
-	CARAT_EQUALS,	  // ^=
+	AmpersandEquals, // &=
+	PipeEquals,		 // |=
+	CaretEquals,	 // ^=
 
-	LSHIFT,		   // <<
-	RSHIFT,		   // >>
-	LSHIFT_EQUALS, // <<=
-	RSHIFT_EQUALS, // >>=
+	LeftShift,		  // <<
+	RightShift,		  // >>
+	LeftShiftEquals,  // <<=
+	RightShiftEquals, // >>=
 
-	INCREMENT, // ++
-	DECREMENT, // --
+	Increment, // ++
+	Decrement, // --
 
-	EQUALS_TO,		// ==
-	NOT_EQUALS,		// !=
-	LESS_THAN,		// <
-	GREATER_THAN,	// >
-	LESS_EQUALS,	// <=
-	GREATER_EQUALS, // >=
+	EqualsTo,	   // ==
+	NotEquals,	   // !=
+	LessThan,	   // <
+	GreaterThan,   // >
+	LessEquals,	   // <=
+	GreaterEquals, // >=
 
-	AND, // &&
-	OR,	 // ||
+	And, // &&
+	Or,	 // ||
 
-	QUESTION,	   // ?
-	NULL_ACCESS,   // ?.
-	NULL_COALESCE, // ??
-	NULL_ASSIGN,   // ??=
+	Question,	  // ?
+	NullAccess,	  // ?.
+	NullCoalesce, // ??
+	NullAssign,	  // ??=
 
-	SEMICOLON, // ;
-	DOT,	   // .
-	COMMA,	   // ,
-	DOLLAR,	   // $
-	COLON,	   // :
-	ARROW,	   // ->
-	META,	   // @:
+	Semicolon,		 // ;
+	Dot,			 // .
+	Comma,			 // ,
+	Dollar,			 // $
+	Colon,			 // :
+	Arrow,			 // ->
+	Meta,			 // @:
+	NamespaceAccess, // ::
 
-	LPAREN,	  // (
-	RPAREN,	  // )
-	LBRACE,	  // {
-	RBRACE,	  // }
-	LBRACKET, // [
-	RBRACKET, // ]
+	LeftParen,	  // (
+	RightParen,	  // )
+	LeftBrace,	  // {
+	RightBrace,	  // }
+	LeftBracket,  // [
+	RightBracket, // ]
 
-	COMMENT,
-	EoF,
-	ILLEGAL,
+	Comment,
+	EndOfFile,
+	Illegal,
 };
 
 enum class KeywordType
 {
-	NAMESPACE,
-	IMPORT,
-	CLASS,
-	ABSTRACT,
-	ENUM,
-	EXTERN,
+	Import,
+	Namespace,
+	Class,
+	Abstract,
+	Interface,
+	Enum,
 
-	PUBLIC,
-	PROTECTED,
-	PRIVATE,
-	STATIC,
-	INLINE,
-	OVERRIDE,
-	OVERLOAD,
+	Public,
+	Protected,
+	Private,
+	Static,
+	Inline,
+	Override,
+	Overload,
 
-	IF,
-	ELSE,
-	SWITCH,
-	CASE,
-	BREAK,
-	DEFAULT,
+	If,
+	Else,
+	Switch,
+	Case,
+	Break,
+	Default,
 
-	FOR,
-	WHILE,
-	DO,
-	CONTINUE,
+	For,
+	While,
+	Do,
+	Continue,
 
-	NEW,
-	DEL,
+	New,
+	Del,
 
-	TRY,
-	CATCH,
-	FINALLY,
+	Throw,
+	Try,
+	Catch,
+	Finally,
 
-	SUPER,
-	THIS,
-	RETURN,
-	NULL_T,
+	Super,
+	This,
+	Return,
+	Cast,
+
+	Null
 };
 
 using TokenValue = std::variant<std::monostate, std::string, int64_t, double, bool, KeywordType>;
@@ -131,6 +135,7 @@ struct Token
 	TokenType type;
 	TokenValue value;
 
+	
 	uint32_t line, col;
 
 	Token(TokenType type, TokenValue value, uint32_t line, uint32_t col)

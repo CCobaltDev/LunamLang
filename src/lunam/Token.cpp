@@ -6,18 +6,18 @@ std::ostream &operator<<(std::ostream &os, const Token &obj)
 
 	switch (obj.type)
 	{
-	case TokenType::STRING_LITERAL:
-	case TokenType::IDENTIFIER:
-	case TokenType::COMMENT:
+	case TokenType::StringLiteral:
+	case TokenType::Identifier:
+	case TokenType::Comment:
 		os << '(' << std::get<std::string>(obj.value) << ')';
 		break;
-	case TokenType::NUMBER_LITERAL:
+	case TokenType::NumberLiteral:
 		os << '(' << std::get<double>(obj.value) << ')';
 		break;
-	case TokenType::BOOL_LITERAL:
+	case TokenType::BoolLiteral:
 		os << '(' << std::get<bool>(obj.value) << ')';
 		break;
-	case TokenType::KEYWORD:
+	case TokenType::Keyword:
 		os << '(' << magic_enum::enum_name(std::get<KeywordType>(obj.value)) << ')';
 		break;
 	default:

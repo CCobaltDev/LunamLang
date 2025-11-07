@@ -2,7 +2,6 @@
 #define LEXER_H
 
 #include <unordered_map>
-#include <string_view>
 #include <cstdint>
 #include <string>
 
@@ -24,45 +23,47 @@ private:
 	static inline constexpr auto binary_num_format = fast_float::parse_options{num_flags, '.', 2};
 
 	static inline const std::unordered_map<std::string, KeywordType> keywords{
-		{"namespace", KeywordType::NAMESPACE},
-		{"import", KeywordType::IMPORT},
-		{"class", KeywordType::CLASS},
-		{"abstract", KeywordType::ABSTRACT},
-		{"enum", KeywordType::ENUM},
-		{"extern", KeywordType::EXTERN},
-		{"public", KeywordType::PUBLIC},
-		{"protected", KeywordType::PROTECTED},
-		{"private", KeywordType::PRIVATE},
-		{"static", KeywordType::STATIC},
-		{"inline", KeywordType::INLINE},
-		{"override", KeywordType::OVERRIDE},
-		{"overload", KeywordType::OVERLOAD},
-		{"if", KeywordType::IF},
-		{"else", KeywordType::ELSE},
-		{"switch", KeywordType::SWITCH},
-		{"case", KeywordType::CASE},
-		{"break", KeywordType::BREAK},
-		{"default", KeywordType::DEFAULT},
-		{"for", KeywordType::FOR},
-		{"while", KeywordType::WHILE},
-		{"do", KeywordType::DO},
-		{"continue", KeywordType::CONTINUE},
-		{"new", KeywordType::NEW},
-		{"del", KeywordType::DEL},
-		{"try", KeywordType::TRY},
-		{"catch", KeywordType::CATCH},
-		{"finally", KeywordType::FINALLY},
-		{"super", KeywordType::SUPER},
-		{"this", KeywordType::THIS},
-		{"return", KeywordType::RETURN},
-		{"null", KeywordType::NULL_T},
+		{"import", KeywordType::Import},
+		{"namespace", KeywordType::Namespace},
+		{"class", KeywordType::Class},
+		{"abstract", KeywordType::Abstract},
+		{"interface", KeywordType::Interface},
+		{"enum", KeywordType::Enum},
+		{"public", KeywordType::Public},
+		{"protected", KeywordType::Protected},
+		{"private", KeywordType::Private},
+		{"static", KeywordType::Static},
+		{"inline", KeywordType::Inline},
+		{"override", KeywordType::Override},
+		{"overload", KeywordType::Overload},
+		{"if", KeywordType::If},
+		{"else", KeywordType::Else},
+		{"switch", KeywordType::Switch},
+		{"case", KeywordType::Case},
+		{"break", KeywordType::Break},
+		{"default", KeywordType::Default},
+		{"for", KeywordType::For},
+		{"while", KeywordType::While},
+		{"do", KeywordType::Do},
+		{"continue", KeywordType::Continue},
+		{"new", KeywordType::New},
+		{"del", KeywordType::Del},
+		{"throw", KeywordType::Throw},
+		{"try", KeywordType::Try},
+		{"catch", KeywordType::Catch},
+		{"finally", KeywordType::Finally},
+		{"super", KeywordType::Super},
+		{"this", KeywordType::This},
+		{"return", KeywordType::Return},
+		{"cast", KeywordType::Cast},
+		{"null", KeywordType::Null},
 	};
 
 	bool match(char c) noexcept;
 	void advance() noexcept;
 	const char peek(uint32_t ahead = 1) const noexcept { return src[pos + ahead]; };
 	const char cur() const noexcept { return src[pos]; };
-	bool isAtEnd() const noexcept { return pos >= src.length(); };
+	bool isAtEnd(uint32_t ahead = 0) const noexcept { return (pos + ahead) >= src.length(); };
 
 	[[nodiscard]] Token make(TokenType type) const noexcept;
 	[[nodiscard]] Token make(TokenType type, TokenValue value) const noexcept;
