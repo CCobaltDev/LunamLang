@@ -2,11 +2,9 @@
 #define TOKEN_H
 
 #include <cstdint>
-#include <variant>
-#include <string>
 #include <ostream>
-
-#include "magic_enum/magic_enum.hpp"
+#include <string>
+#include <variant>
 
 enum class TokenType
 {
@@ -17,66 +15,66 @@ enum class TokenType
 	Identifier,
 	Keyword,
 
-	Plus,	   // +
-	Minus,	   // -
-	Star,	   // *
-	Slash,	   // /
-	Modulo,	   // %
-	Equals,	   // =
-	Ampersand, // &
-	Pipe,	   // |
-	Tilde,	   // ~
-	Caret,	   // ^
-	Bang,	   // !
+	Plus,			  // +
+	Minus,			  // -
+	Star,			  // *
+	Slash,			  // /
+	Modulo,			  // %
+	Equals,			  // =
+	Ampersand,		  // &
+	Pipe,			  // |
+	Tilde,			  // ~
+	Caret,			  // ^
+	Bang,			  // !
 
-	PlusEquals,	  // +=
-	MinusEquals,  // -=
-	StarEquals,	  // *=
-	SlashEquals,  // /=
-	ModuloEquals, // %=
+	PlusEquals,		  // +=
+	MinusEquals,	  // -=
+	StarEquals,		  // *=
+	SlashEquals,	  // /=
+	ModuloEquals,	  // %=
 
-	AmpersandEquals, // &=
-	PipeEquals,		 // |=
-	CaretEquals,	 // ^=
+	AmpersandEquals,  // &=
+	PipeEquals,		  // |=
+	CaretEquals,	  // ^=
 
 	LeftShift,		  // <<
 	RightShift,		  // >>
 	LeftShiftEquals,  // <<=
 	RightShiftEquals, // >>=
 
-	Increment, // ++
-	Decrement, // --
+	Increment,		  // ++
+	Decrement,		  // --
 
-	EqualsTo,	   // ==
-	NotEquals,	   // !=
-	LessThan,	   // <
-	GreaterThan,   // >
-	LessEquals,	   // <=
-	GreaterEquals, // >=
+	EqualsTo,		  // ==
+	NotEquals,		  // !=
+	LessThan,		  // <
+	GreaterThan,	  // >
+	LessEquals,		  // <=
+	GreaterEquals,	  // >=
 
-	And, // &&
-	Or,	 // ||
+	And,			  // &&
+	Or,				  // ||
 
-	Question,	  // ?
-	NullAccess,	  // ?.
-	NullCoalesce, // ??
-	NullAssign,	  // ??=
+	Question,		  // ?
+	NullAccess,		  // ?.
+	NullCoalesce,	  // ??
+	NullAssign,		  // ??=
 
-	Semicolon,		 // ;
-	Dot,			 // .
-	Comma,			 // ,
-	Dollar,			 // $
-	Colon,			 // :
-	Arrow,			 // ->
-	Meta,			 // @:
-	NamespaceAccess, // ::
+	Semicolon,		  // ;
+	Dot,			  // .
+	Comma,			  // ,
+	Dollar,			  // $
+	Colon,			  // :
+	Arrow,			  // ->
+	Meta,			  // @:
+	NamespaceAccess,  // ::
 
-	LeftParen,	  // (
-	RightParen,	  // )
-	LeftBrace,	  // {
-	RightBrace,	  // }
-	LeftBracket,  // [
-	RightBracket, // ]
+	LeftParen,		  // (
+	RightParen,		  // )
+	LeftBrace,		  // {
+	RightBrace,		  // }
+	LeftBracket,	  // [
+	RightBracket,	  // ]
 
 	Comment,
 	EndOfFile,
@@ -90,6 +88,7 @@ enum class KeywordType
 	Class,
 	Abstract,
 	Interface,
+	Struct,
 	Enum,
 
 	Public,
@@ -112,30 +111,26 @@ enum class KeywordType
 	Do,
 	Continue,
 
-	New,
-	Del,
-
 	Throw,
 	Try,
 	Catch,
 	Finally,
 
+	New,
 	Super,
 	This,
 	Return,
-	Cast,
 
 	Null
 };
 
-using TokenValue = std::variant<std::monostate, std::string, int64_t, double, bool, KeywordType>;
+using TokenValue = std::variant<std::monostate, std::string, uint64_t, double, bool, KeywordType>;
 
 struct Token
 {
 	TokenType type;
 	TokenValue value;
 
-	
 	uint32_t line, col;
 
 	Token(TokenType type, TokenValue value, uint32_t line, uint32_t col)

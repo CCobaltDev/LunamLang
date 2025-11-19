@@ -1,0 +1,15 @@
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+BreakBeforeBraces: Allman
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+MaxEmptyLinesToKeep: 1
+ColumnLimit: 120
+AccessModifierOffset: -4
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+  AlignCompound: true

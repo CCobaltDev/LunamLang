@@ -1,4 +1,6 @@
 #include "lunam/Token.h"
+#include "magic_enum/magic_enum.hpp"
+#include <variant>
 
 std::ostream &operator<<(std::ostream &os, const Token &obj)
 {
@@ -12,7 +14,10 @@ std::ostream &operator<<(std::ostream &os, const Token &obj)
 		os << '(' << std::get<std::string>(obj.value) << ')';
 		break;
 	case TokenType::NumberLiteral:
-		os << '(' << std::get<double>(obj.value) << ')';
+		os << '('
+		   << (std::holds_alternative<uint64_t>(obj.value) ? std::get<uint64_t>(obj.value)
+														   : std::get<double>(obj.value))
+		   << ')';
 		break;
 	case TokenType::BoolLiteral:
 		os << '(' << std::get<bool>(obj.value) << ')';

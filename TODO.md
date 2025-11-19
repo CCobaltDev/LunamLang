@@ -2,10 +2,62 @@
 
 - Lexer
 	- [ ] Proper error handling
-	- [ ] UTF-8 support with `utfcpp`
+	- [x] UTF-8 support with `utfcpp`
 - Parser
 	- [ ] AST Type Definitions
-	- [ ] Typed vs Untyped ASTs
+		- [ ] Basic Expressions
+			- [ ] Expr
+			- [ ] BinaryExpr
+			- [ ] UnaryExpr
+			- [ ] AssignExpr
+			- [ ] TernaryExpr
+			- [ ] MemberAccessExpr
+			- [ ] ArrayAccessExpr
+			- [ ] NamespaceAccessExpr
+			- [ ] CallExpr
+			- [ ] LambdaExpr
+			- [ ] ThisExpr
+			- [ ] SuperExpr
+		- [ ] Literals
+			- [ ] Literal
+			- [ ] IntLit
+			- [ ] FloatLit
+			- [ ] StringLit
+			- [ ] BoolLit
+			- [ ] NullLit
+			- [ ] ArrayLit
+			- [ ] ObjectLit
+		- [ ] Identifier
+		- [ ] Conditionals
+			- [ ] IfExpr
+			- [ ] SwitchExpr
+				- [ ] CaseExpr
+				- [ ] DefaultExpr
+		- [ ] BreakExpr
+		- [ ] ReturnExpr
+		- [ ] Loops
+			- [ ] WhileExpr
+			- [ ] DoWhileExpr
+			- [ ] ForExpr
+			- [ ] ContinueExpr;
+		- [ ] Declarations
+			- [ ] VariableDecl
+			- [ ] FunctionDecl
+			- [ ] ClassDecl
+			- [ ] InterfaceDecl
+			- [ ] StructDecl
+			- [ ] EnumDecl
+			- [ ] NamespaceDecl
+			- [ ] ImportDecl
+		- [ ] Types
+			- [ ] TypeExpr
+			- [ ] FunctionTypeExpr
+			- [ ] GenericTypeExpr
+		- [ ] CastExpr
+		- [ ] TryExpr
+			- [ ] CatchExpr
+			- [ ] ThrowExpr
+		- [ ] SourceFile
 - Generators
 	- [ ] Generator interface
 	- [ ] C++17 target
@@ -13,7 +65,8 @@
 	- [ ] WASM Target
 - All
 	- [ ] Static Typing System
-	- [ ] Memory Analysis (Automatically inserting `dealloc` nodes)
 	- [ ] Optimization Passes (DCE, CSE, Constant folding, etc)
 	- [ ] Implement compiler options
 	- [ ] Testing, CI
+	- [ ] `ErrorReporter.hpp`
+	- [ ] Rename .h to .hpp

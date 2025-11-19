@@ -13,4 +13,4 @@ CMakeUserPresets.json
 
 build
 out
-.vscode
+.cache
